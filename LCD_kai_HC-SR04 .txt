@@ -1,0 +1,24 @@
+#include <LiquidCrystal.h>
+#include <NewPing.h>
+
+LiquidCrystal lcd(7, 8, 9, 10, 11, 12); 
+#define ECHO_PIN 3 
+#define TRIG_PIN 2
+#define MAX_DIST 300
+NewPing sonar(TRIG_PIN, ECHO_PIN, MAX_DIST);
+
+void setup() { 
+ lcd.begin(16,2); 
+}
+
+void loop() {
+ unsigned int S2 = sonar.ping_cm();
+ lcd.setCursor(1,0);
+ lcd.print("# alexispapy");
+
+ lcd.setCursor(1,1);
+ lcd.print("dist: ");
+ lcd.print(S2);
+ lcd.print(" cm");
+ delay(500); 
+}
