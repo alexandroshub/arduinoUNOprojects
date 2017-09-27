@@ -1,0 +1,230 @@
+// codeMichatron
+// Μελέτη και Κατασκευή Michatron By: Papaspyrou Alexandros
+// Website: http://a-papaspyrou.yolasite.com & Video@vimeo: https://vimeo.com/141997888
+// theProject@BropBox: https://www.dropbox.com/sh/lhl8enfoiyg671y/AACCk5PwMAC7Z-JIQc7qXTdCa?dl=0
+// Το Michatron... Ξεκινάει με μη χειροκίνητο τρόπο… Ακολουθεί μια μαύρη γραμμή… Προσπερνάει τα εμπόδια που θα βρει… και όταν φτάσει στο τέρμα… Σταματάει αυτόματα! 
+
+int LDR = A5;//ekinisi
+int LDRValue = 0;//ekinisi
+int asd = 0; //ekinisi
+#define trigPin 9//ais8itirio gia ebodio
+#define echoPin 8//ais8itirio gia ebodio
+int sensePinL = 0;//ari
+int sensePinR = 1;//dex
+int ledPin2 = 10;//fotaki
+int ledPin = 11;//flasaki
+int ledPin3 = 12;//flasaki2
+int motor_leftBROSTA = 5 ;
+int motor_leftPISO = 6;
+int motor_rightBROSTA = 4;
+int motor_rightPISO = 3;
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+void setup ()
+{
+ Serial.begin(9600);
+ analogReference(DEFAULT);
+ pinMode(ledPin, OUTPUT);
+ pinMode(ledPin2, OUTPUT);
+ pinMode(ledPin3, OUTPUT);
+ pinMode(motor_leftBROSTA, OUTPUT);
+ pinMode(motor_leftPISO, OUTPUT);
+ pinMode(motor_rightBROSTA, OUTPUT);
+ pinMode(motor_rightPISO, OUTPUT);
+
+ pinMode(trigPin, OUTPUT);
+ pinMode(echoPin, INPUT);
+}
+//==========================================================================
+void loop()
+{
+ LDRValue = analogRead(LDR);
+ if (asd == 0)
+ {
+ if (LDRValue < 250)
+ {
+ asd = 1;
+ digitalWrite(ledPin2, HIGH);
+ }
+ else
+ {
+ asd = 0;
+ digitalWrite(ledPin2, LOW);
+ }
+ }
+ if (asd == 1)
+ {
+ float TemP , DiSt;
+ digitalWrite(trigPin, LOW);
+ delayMicroseconds (2);
+ digitalWrite(trigPin, HIGH);
+ delayMicroseconds (10);
+ digitalWrite(trigPin, LOW);
+ TemP = pulseIn(echoPin, HIGH);
+ DiSt = (TemP / 2) / 29.1;
+//-----------------------------------------------------------------
+ if ((DiSt < 28) && (DiSt > 10)) //ean yparxei ebodio
+ {
+ prosperash();
+ }
+ int LE = analogRead (sensePinL);
+ Serial.print(" : ");
+ Serial.println(RI);
+ if ((LE > 900) && (RI > 915))
+ {
+ analogWrite(motor_leftBROSTA, 0);
+ analogWrite(motor_leftPISO, 0);
+ analogWrite(motor_rightBROSTA, 0);
+ analogWrite(motor_rightPISO, 0);
+ delay(25);
+ analogWrite(motor_leftBROSTA, 0);
+ analogWrite(motor_leftPISO, 140);
+ analogWrite(motor_rightBROSTA, 0);
+ analogWrite(motor_rightPISO, 140);
+ digitalWrite(ledPin, LOW);
+ digitalWrite(ledPin3, LOW);
+ digitalWrite(ledPin2, HIGH);
+ delay(70);
+ }
+ else if ((LE < 900) && (RI < 916))
+ {
+ //stop
+ analogWrite(motor_leftBROSTA, 0);
+ analogWrite(motor_leftPISO, 0);
+ analogWrite(motor_rightBROSTA, 0);
+ analogWrite(motor_rightPISO, 0);
+ digitalWrite(ledPin, HIGH);
+ digitalWrite(ledPin2, LOW);
+ digitalWrite(ledPin3, HIGH);
+ delay(50);
+ digitalWrite(ledPin, LOW);
+ digitalWrite(ledPin2, LOW);
+ digitalWrite(ledPin3, LOW);
+ delay(50);
+ }
+ else if ((LE < 900) && (RI > 916))
+ {
+ analogWrite(motor_leftBROSTA, 0);
+ analogWrite(motor_leftPISO, 0);
+ analogWrite(motor_rightBROSTA, 0);
+ analogWrite(motor_rightPISO, 0);
+ delay(25);
+ analogWrite(motor_leftBROSTA, 160);
+ analogWrite(motor_leftPISO, 0);
+ analogWrite(motor_rightBROSTA, 0);
+ analogWrite(motor_rightPISO, 150);
+ digitalWrite(ledPin, HIGH);
+ digitalWrite(ledPin2, LOW);
+ digitalWrite(ledPin3, LOW);
+ delay(70);
+ }
+ else if ((LE > 900) && (RI < 916))
+ {
+ analogWrite(motor_leftBROSTA, 0);
+ analogWrite(motor_leftPISO, 0);
+ analogWrite(motor_rightBROSTA, 0);
+ analogWrite(motor_rightPISO, 0);
+ delay(25);
+ analogWrite(motor_leftBROSTA, 0);
+ analogWrite(motor_leftPISO, 150);
+ analogWrite(motor_rightBROSTA, 140);
+ analogWrite(motor_rightPISO, 0);
+ digitalWrite(ledPin, LOW);
+ digitalWrite(ledPin2, LOW);
+ digitalWrite(ledPin3, HIGH);
+ delay(70);
+ } }}
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+void prosperash ()
+{
+ analogWrite(motor_leftBROSTA, 0);
+ analogWrite(motor_leftPISO, 0);
+ analogWrite(motor_rightBROSTA, 0);
+ analogWrite(motor_rightPISO, 0);
+ delay(30);
+ analogWrite(motor_leftBROSTA, 0);
+ analogWrite(motor_leftPISO, 200);
+ analogWrite(motor_rightBROSTA, 200);
+ analogWrite(motor_rightPISO, 0);
+ digitalWrite(ledPin, LOW);
+ digitalWrite(ledPin2, LOW);
+ digitalWrite(ledPin3, HIGH);
+ delay(300);
+ analogWrite(motor_leftBROSTA, 0);
+ analogWrite(motor_leftPISO, 0);
+ analogWrite(motor_rightBROSTA, 0);
+ analogWrite(motor_rightPISO, 0);
+ delay(25);
+ analogWrite(motor_leftBROSTA, 0);
+ digitalWrite(motor_leftPISO, HIGH);
+ analogWrite(motor_rightBROSTA, 0);
+ digitalWrite(motor_rightPISO, HIGH);
+ digitalWrite(ledPin, LOW);
+ digitalWrite(ledPin3, LOW);
+ digitalWrite(ledPin2, HIGH);
+ delay(1000);
+ analogWrite(motor_leftBROSTA, 0);
+ analogWrite(motor_leftPISO, 0);
+ analogWrite(motor_rightBROSTA, 0);
+ analogWrite(motor_rightPISO, 0);
+ delay(30);
+ analogWrite(motor_leftBROSTA, 220);
+ analogWrite(motor_leftPISO, 0);
+ analogWrite(motor_rightBROSTA, 0);
+ analogWrite(motor_rightPISO, 180);
+ digitalWrite(ledPin, HIGH);
+ digitalWrite(ledPin2, LOW);
+ digitalWrite(ledPin3, LOW);
+ delay(200);
+ analogWrite(motor_leftBROSTA, 0);
+ analogWrite(motor_leftPISO, 0);
+ analogWrite(motor_rightBROSTA, 0);
+ analogWrite(motor_rightPISO, 0);
+ delay(25);
+ analogWrite(motor_leftBROSTA, 0);
+ digitalWrite(motor_leftPISO, HIGH);
+ analogWrite(motor_rightBROSTA, 0);
+ digitalWrite(motor_rightPISO, HIGH);
+ digitalWrite(ledPin, LOW);
+ digitalWrite(ledPin3, LOW);
+ digitalWrite(ledPin2, HIGH);
+ delay(1000);
+ analogWrite(motor_leftBROSTA, 220);
+ analogWrite(motor_leftPISO, 0);
+ analogWrite(motor_rightBROSTA, 0);
+ analogWrite(motor_rightPISO, 180);
+ digitalWrite(ledPin, HIGH);
+ digitalWrite(ledPin2, LOW);
+ digitalWrite(ledPin3, LOW);
+ delay(200);
+ analogWrite(motor_leftBROSTA, 0);
+ analogWrite(motor_leftPISO, 0);
+ analogWrite(motor_rightBROSTA, 0);
+ analogWrite(motor_rightPISO, 0);
+ delay(25);
+ analogWrite(motor_leftBROSTA, 0);
+ digitalWrite(motor_leftPISO, HIGH);
+ analogWrite(motor_rightBROSTA, 0);
+ digitalWrite(motor_rightPISO, HIGH);
+ digitalWrite(ledPin, LOW);
+ digitalWrite(ledPin3, LOW);
+ digitalWrite(ledPin2, HIGH);
+ delay(1000);
+ analogWrite(motor_leftBROSTA, 0);
+ analogWrite(motor_leftPISO, 0);
+ analogWrite(motor_rightBROSTA, 0);
+ analogWrite(motor_rightPISO, 0);
+ delay(25);
+ analogWrite(motor_leftBROSTA, 0);
+ analogWrite(motor_leftPISO, 200);
+ analogWrite(motor_rightBROSTA, 200);
+ analogWrite(motor_rightPISO, 0);
+ digitalWrite(ledPin, LOW);
+ digitalWrite(ledPin2, LOW);
+ digitalWrite(ledPin3, HIGH);
+ delay(300);
+ analogWrite(motor_leftBROSTA, 0);
+ analogWrite(motor_leftPISO, 0);
+ analogWrite(motor_rightBROSTA, 0);
+ analogWrite(motor_rightPISO, 0);
+ delay(25);
+}
